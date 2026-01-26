@@ -5,9 +5,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev" : "node --watch src/index.js",
+    "start": "node src/index.js",
+    "db:generate" : "drizzle-kit generate",
+    "db:migrate" : "drizzle-kit migrate",
+    "db:seed" : "node src/db/seed.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@hono/node-server": "^1.19.9",
+    "@supabase/supabase-js": "^2.91.1",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
+    "hono": "^4.11.5",
+    "jsonwebtoken": "^9.0.3",
+    "postgres": "^3.4.8"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.8"
+  }
 }
