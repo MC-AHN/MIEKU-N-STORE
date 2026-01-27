@@ -94,3 +94,10 @@ app.post('/api/products', authMiddleware, async (c) => {
         return c.json({ success: false, message: e.message }, 500);
     }
 });
+
+import { desc } from "drizzle-orm";
+
+app.get('/api/products', async (c) => {
+    const data = await db.select().from(schema.products).orderBy(desc(schema.products.id));
+    return c.json({ success: true, data});
+});
