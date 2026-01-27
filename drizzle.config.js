@@ -1,5 +1,5 @@
 // drizzle.config.js
-import { defineConfig } from 'drizzle-orm/postgres-js';
+import { defineConfig } from 'drizzle-kit';
 
 // LOAD ENV OTOMATIS
 process.loadEnvFile();
