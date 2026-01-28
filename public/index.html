@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <h1>🏪 </h1>
+    <button onclick="toggleCart()">
+        🛒 Cart (<span id="cartCount">0</span>)
+    </button>
+    <hr>
+
+    <div id="cartModal" style="display: none; background-color: #eee;padding: 20px; border: 1px solid black; margin-bottom: 20px;">
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+
+        <br><br>
+
+        <label for="cName">order name:</label>
+        <input type="text" name="cName" id="cName">
+        
+        <br> <br>
+       
+        <label for="cAddr">Shipping Address:</label>
+        <input type="text" name="cAddr" id="cAddr">
+
+        <br><br>
+
+        <button onclick="checkout()">Buy by Whatsapp</button>
+        <button onclick="toggleCart()">Close</button>
+
+        <div id="products"></div>
+
+        <script>
+            let cart = [];
+            let allProducts = [];
+
+            async function load() {
+                const res = await fetch('/api/products');
+                const json = await res.json();
+                allProducts = json.data;
+
+                // Render whitout class css
+                document.getElementById('products').innerHTML = allProducts.map(p => `
+                    <div style='border: 1px solid #ccc; padding: 10px; margin-bottom:10px;'>
+                        <img src="${p.imageUrl}" width="150" alt="${p.name}"><br>
+                        <h3>${p.name}</h3>
+                        <p>Price: Rp ${parseInt(p.price).toLocaleString()}</p>
+                        <button onclick="add(${p.id})">Add (+)</button>    
+                    </div>
+                `).join('');
+            }
+
+            function add(id) {
+                const exist = cart.find(c => c.productId === id);
+                if (exist) exist.quantity++;
+                else cart.push({ productId: id, quantity: 1 });
+                updateCount();
+            }
+
+            function updateCount() {
+                document.getElementById('cartCount').innerText = cart.reduce((a, b) => a + b.quantity, 0);
+            }
+
+            function toggleCart() {
+                const m = document.getElementById('cartModal');
+                // logika a simple toggle
+                if (m.style.display === 'none') {
+                    m.style.display = 'block';
+                    renderCart();
+                } else {
+                    m.style.display = 'none';
+                }
+            }
+
+            function renderCart() {
+                document.getElementById('cartItems').innerHTML = cart.map(c => {
+                    const p = allProducts.find(x => x.id === c.productId);
+                    return `
+                        <div>
+                            ${p.name} (x${c.quantity}) - Rp ${(p.price*c.quantity).toLocaleString()}    
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            async function checkout() {
+                const name = document.getElementById('cName').value;
+                const addr = document.getElementById('cAddr').value;
+                if(!name || !addr || cart.length === 0) return alert('Please fill all fields and add items to cart.');
+
+                const res = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ customerName: name, address: addr, items: cart})
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    const msg = `Hello Admin, Order ID #${data.orderId}. Total: Rp ${data.total.toLocaleString()}. Shipping to: ${addr}`;
+
+                    //redirect to whatsapp
+                    window.location.href = `https://wa.me/6282130208960?text=${encodeURIComponent(msg)}`;
+                }
+            }
+
+            load();
+        </script>
+    </div>
+</body>
+</html>
