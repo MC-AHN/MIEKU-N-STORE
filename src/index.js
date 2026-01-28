@@ -10,14 +10,14 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createClient } from "@supabase/supabase-js";
 import { desc } from "drizzle-orm";
-import { serveStatic } from "hono/serve-static";
+import { serveStatic } from "@hono/node-server/serve-static";
 
 // 1, LOAD ENV
 process.loadEnvFile();
 
 // 2. Setup Connection
 const client = postgres(process.env.DATABASE_URL);
-const db = drizzle(client);
+const db = drizzle(client, { schema });
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
 const app = new Hono();
@@ -25,7 +25,7 @@ app.use("/*", cors());
 app.use("/*", serveStatic({ root: './public' }));
 
 // -- API LOGIN --
-app.post("/login", async (c) => {
+app.post("/api/login", async (c) => {
     const { username, password } = await c.req.json();
 
     // 1. Cek user di database
@@ -38,7 +38,7 @@ app.post("/login", async (c) => {
     }
 
     // Create token
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: 'id' });
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
     return c.json({ success: true, token });
 });
 
@@ -86,8 +86,8 @@ app.post('/api/products', authMiddleware, async (c) => {
             name: body['name'],
             description: body['description'],
             price: body['price'],
-            stock: body['stock'],
-            categoryId: body['categoryId'],
+            stock: parseInt(body['stock']),
+            categoryId: parseInt(body['categoryId']),
             imageUrl: imageUrl
         });
 
@@ -140,8 +140,7 @@ app.post('/api/orders', async (c) => {
 
                 await tx.update(schema.products)
                     .set({ stock: product.stock - item.quantity })
-                    .where(eq(schema.product.id, item.productId));
-
+                    .where(eq(schema.products.id, item.productId));
             }
 
             // Update Total Price

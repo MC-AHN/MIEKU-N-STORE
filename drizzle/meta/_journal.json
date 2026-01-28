@@ -8,6 +8,13 @@
       "when": 1769495823019,
       "tag": "0000_normal_jackal",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1769570837156,
+      "tag": "0001_material_lord_hawal",
+      "breakpoints": true
     }
   ]
 }

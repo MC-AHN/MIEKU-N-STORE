@@ -41,7 +41,7 @@ export const orders = pgTable("orders_store", {
 export const orderItems = pgTable("order_items_store", {
     id: serial("id").primaryKey(),
     orderId: integer("order_id")
-        .references(() => users.id).notNull(),
+        .references(() => orders.id).notNull(),
     productId: integer("product_id")
         .references(() => products.id).notNull(),
     quantity: integer("quantity").notNull(),
