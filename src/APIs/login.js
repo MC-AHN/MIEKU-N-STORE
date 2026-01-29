@@ -3,7 +3,7 @@ import * as schema from "./db/schema.js";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import { db } from "../db/index.js";
 
 const login = async (c) => {
     const { username, password } = await c.req.json();

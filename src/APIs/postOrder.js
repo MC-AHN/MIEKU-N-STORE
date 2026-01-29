@@ -1,5 +1,6 @@
 import * as schema from "./db/schema.js";
 import { eq } from "drizzle-orm";
+import { db } from "../db/index.js";
 
 const postOrder = async (c) => {
     const { customerName, address, items } = await c.req.json();
@@ -49,7 +50,7 @@ const postOrder = async (c) => {
         });
 
         return c.json({ success: true, ...result })
-    
+
     } catch (e) {
         return c.json({ success: false, message: e.message }, 400);
     }
