@@ -3,11 +3,11 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { serveStatic } from "@hono/node-server/serve-static";
-import login from "./APIs/login.js";
-import register from "./APIs/register.js";
-import authMiddleware from "./APIs/authMiddleware.js";
-import getProduct from "./APIs/getProduct.js";
-import postOrder from "./APIs/postOrder.js";
+import login from "./src/APIs/login.js";
+import register from "./src/APIs/register.js";
+import authMiddleware from "./src/APIs/authMiddleware.js";
+import getProduct from "./src/APIs/getProduct.js";
+import postOrder from "./src/APIs/postOrder.js";
 
 const app = new Hono();
 app.use("/*", cors());
