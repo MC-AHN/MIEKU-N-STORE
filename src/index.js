@@ -6,13 +6,12 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./db/schema.js";
 import { eq } from "drizzle-orm";
-import jwt from "jsonwebtoken";
 import { createClient } from "@supabase/supabase-js";
-import { desc } from "drizzle-orm";
 import { serveStatic } from "@hono/node-server/serve-static";
 import login from "./APIs/login.js";
 import register from "./APIs/register.js";
 import authMiddleware from "./APIs/authMiddleware.js";
+import getProduct from "./APIs/getProduct.js";
 
 // 1, LOAD ENV
 process.loadEnvFile();
@@ -33,10 +32,7 @@ app.post("/api/login", login);
 app.post('/api/products', authMiddleware, register);
 
 
-app.get('/api/products', async (c) => {
-    const data = await db.select().from(schema.products).orderBy(desc(schema.products.id));
-    return c.json({ success: true, data });
-});
+app.get('/api/products', getProduct);
 
 app.post('/api/orders', async (c) => {
     const { customerName, address, items } = await c.req.json();
