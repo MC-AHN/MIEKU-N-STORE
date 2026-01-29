@@ -12,6 +12,7 @@ import { desc } from "drizzle-orm";
 import { serveStatic } from "@hono/node-server/serve-static";
 import login from "./APIs/login.js";
 import register from "./APIs/register.js";
+import authMiddleware from "./APIs/authMiddleware.js";
 
 // 1, LOAD ENV
 process.loadEnvFile();
@@ -27,20 +28,6 @@ app.use("/*", serveStatic({ root: './public' }));
 
 // -- API LOGIN --
 app.post("/api/login", login);
-
-// MiddleWare Auth
-const authMiddleware = async (c, next) => {
-    const authHeader = c.req.header('Authorization');
-    if (!authHeader) return c.json({ success: false, message: "Unauthorized" }, 401);
-    try {
-        const token = authHeader.split(' ')[1];
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        c.set('user', payload);
-        await next();
-    } catch (e) {
-        return c.json({ message: "Invalid Token", error: e }, 403);
-    }
-};
 
 //
 app.post('/api/products', authMiddleware, register);
