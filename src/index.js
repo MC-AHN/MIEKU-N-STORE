@@ -1,5 +1,5 @@
 // src/index.js
-import { serve, handle } from "@hono/node-server";
+import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { serveStatic } from "@hono/node-server/serve-static";
@@ -33,4 +33,4 @@ console.log(`Server running at http://localhost:${port}`);
 serve({ fetch: app.fetch, port });
 
 // For serverless deployment
-export default handle(app);
+export default app;
