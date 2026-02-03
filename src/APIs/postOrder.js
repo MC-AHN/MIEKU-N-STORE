@@ -1,4 +1,4 @@
-import * as schema from "./db/schema.js";
+import * as schema from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import { db } from "../db/index.js";
 

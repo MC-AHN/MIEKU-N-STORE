@@ -1,5 +1,5 @@
-import * as schema from "./db/schema.js";
-import { db, supabase } from "./db/index.js";
+import * as schema from "../db/schema.js";
+import { db, supabase } from "../db/index.js";
 
 
 const register = async (c) => {
