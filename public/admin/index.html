@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <p>Add New Product</p>
+    <hr>
+
+    <form id="productForm">
+        <label for="product">Name Product: </label>
+        <input type="text" name="product" id="product" required><br>
+
+        <label for="desc">Description: </label>
+        <textarea name="desc" id="desc"></textarea><br>
+
+        <label for="price">Price: </label>
+        <input type="number" name="price" id="price" required><br>
+
+        <label for="stock">Stock: </label>
+        <input type="number" name="stock" id="stock" required><br>
+
+        <label for="category">Category: </label>
+        <select name="category" id="category">
+            <option value="1">Food</option>
+            <option value="2">Drink</option>
+            <option value="3">Fashion</option>
+        </select><br>
+
+        <label for="image">Image: </label>
+        <input type="file" name="image" id="image" required><br>
+
+        <button type="submit">Save Product</button>
+    </form>
+
+    <br>
+    <a href="../index.html">To Store Page</a>
+
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
