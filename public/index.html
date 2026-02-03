@@ -42,10 +42,13 @@
         let cart = [];
         let allProducts = [];
 
+        let totalConst = document.getElementById('totalItems');
+        
         async function load() {
             const res = await fetch('/api/products');
             const json = await res.json();
             allProducts = json.data;
+            let grandTotal = 0
 
             // Render whitout class css
             document.getElementById('products').innerHTML = allProducts.map(p => `
@@ -56,6 +59,8 @@
                         <button onclick="add(${p.id})">Add (+)</button>    
                     </div>
                 `).join('');
+            
+            totalConst.innerText = grandTotal.toLocaleString();
         }
 
         function add(id) {
@@ -84,7 +89,7 @@
             document.getElementById('cartItems').innerHTML = cart.map(c => {
                 const p = allProducts.find(x => x.id === c.productId);
                 const total = p.price * c.quantity;
-                document.getElementById('totalItems').innerText = total;
+                grandTotal += total;
                 return `
                         <div>
                             ${p.name} (x${c.quantity}) - Rp ${(p.price * c.quantity).toLocaleString()}    
