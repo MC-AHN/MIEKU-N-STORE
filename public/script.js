@@ -9,13 +9,21 @@ async function load() {
 
     // Render whitout class css
     document.getElementById('products').innerHTML = allProducts.map(p => `
-                    <div style='border: 1px solid #ccc; padding: 10px; margin-bottom:10px;'>
-                        <img src="${p.imageUrl}" width="150" alt="${p.name}"><br>
-                        <h3>${p.name}</h3>
-                        <p>Price: Rp ${parseInt(p.price).toLocaleString()}</p>
-                        <button onclick="add(${p.id})">Add (+)</button>    
-                    </div>
-                `).join('');
+    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
+        <div class="aspect-square w-full bg-gray-100">
+            <img src="${p.imageUrl}" class="w-full h-full object-cover" alt="${p.name}">
+        </div>
+        
+        <div class="p-5 flex flex-col flex-1">
+            <h3 class="font-bold text-gray-800 text-lg mb-1">${p.name}</h3>
+            <p class="text-blue-600 font-bold mb-4">Rp ${parseInt(p.price).toLocaleString()}</p>
+            
+            <button onclick="add(${p.id})" class="mt-auto w-full bg-gray-50 border border-gray-200 text-gray-700 font-bold py-2 rounded-lg hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all">
+                Add (+)
+            </button>
+        </div>
+    </div>
+`).join('');
 }
 
 function add(id) {
