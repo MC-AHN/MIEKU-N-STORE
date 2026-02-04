@@ -1,3 +1,4 @@
+console.log('Script for index.html in root');
 let cart = [];
 let allProducts = [];
 
@@ -78,3 +79,6 @@ async function checkout() {
 }
 
 load();
+window.toggleCart = toggleCart;
+window.checkout = checkout;
+window.add = add;
