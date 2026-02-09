@@ -11,6 +11,7 @@ import postOrder from "./APIs/postOrder.js";
 
 const app = new Hono();
 app.use("/*", cors());
+
 // -- STATIC FILES --
 if (process.env.NODE_ENV !== 'production') {
   app.use("/*", serveStatic({ root: './public' }));
