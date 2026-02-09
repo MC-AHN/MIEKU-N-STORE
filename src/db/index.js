@@ -4,7 +4,7 @@ import * as schema from "./schema.js";
 import { createClient } from "@supabase/supabase-js";
 
 // 1, LOAD ENV
-process.loadEnvFile();
+// process.loadEnvFile();
 
 // 2. Setup Connection
 export const client = postgres(process.env.DATABASE_URL);
