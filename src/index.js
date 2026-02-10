@@ -26,7 +26,7 @@ app.post('/api/products', register);
 
 app.get('/api/products', getProduct);
 
-app.post('/api/orders', authMiddleware, postOrder);
+app.post('/api/orders', postOrder);
 
 // Start Server
 const port = 8002;
